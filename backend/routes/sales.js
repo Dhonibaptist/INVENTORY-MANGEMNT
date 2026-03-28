@@ -1,0 +1,11 @@
+const express = require('express');
+const router = express.Router();
+const { getSalesSummary, getDailySales, getTopProducts, getProfitLoss, getDeadStock } = require('../controllers/salesController');
+const { protect, authorize } = require('../middleware/auth');
+router.use(protect);
+router.get('/summary', getSalesSummary);
+router.get('/daily', getDailySales);
+router.get('/top-products', getTopProducts);
+router.get('/profit-loss', authorize('owner','manager'), getProfitLoss);
+router.get('/dead-stock', getProfitLoss);
+module.exports = router;

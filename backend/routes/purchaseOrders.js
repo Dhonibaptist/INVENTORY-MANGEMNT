@@ -1,0 +1,10 @@
+const express = require('express');
+const router = express.Router();
+const { getPurchaseOrders, getPurchaseOrder, createPurchaseOrder, receiveOrder, cancelOrder } = require('../controllers/purchaseOrderController');
+const { protect, authorize } = require('../middleware/auth');
+router.use(protect);
+router.route('/').get(getPurchaseOrders).post(authorize('owner','manager'), createPurchaseOrder);
+router.route('/:id').get(getPurchaseOrder);
+router.put('/:id/receive', authorize('owner','manager'), receiveOrder);
+router.put('/:id/cancel', authorize('owner','manager'), cancelOrder);
+module.exports = router;
